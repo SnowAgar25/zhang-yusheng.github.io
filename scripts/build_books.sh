@@ -7,16 +7,15 @@ sudo apt update
 sudo apt-get install calibre
 sudo apt-get install fonts-arphic-ukai
 
-mkdir -p ./_book/ebooks
+# make dir to place books
+bookdir="./ebooks"
+mkdir -p ${bookdir}
 
 # 设置书籍名称变量
 bookname="yusheng-zhang-archive"
 
-# 创建目标目录
-mkdir -p ./_book/ebooks
+honkit epub ./ ${bookdir}/${bookname}.epub
 
-honkit epub ./ ./_book/ebooks/${bookname}.epub
+honkit pdf ./ ${bookdir}/${bookname}.pdf
 
-honkit pdf ./ ./_book/ebooks/${bookname}.pdf
-
-honkit mobi ./ ./_book/ebooks/${bookname}.mobi
+honkit mobi ./ ${bookdir}/${bookname}.mobi
