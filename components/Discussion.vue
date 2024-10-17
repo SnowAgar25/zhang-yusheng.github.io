@@ -6,7 +6,7 @@
   onMounted(() => {
     const s = document.createElement('script')
     s.id = ID
-    s.src = 'https://zhang-yushen.disqus.com/embed.js'
+    s.src = 'https://zhang-yusheng.disqus.com/embed.js'
     s.setAttribute('data-timestamp', +new Date())
     document.body.appendChild(s)
   })
