@@ -194,7 +194,7 @@ zhang-yusheng.github.io
 
 未来可能还会有新的文件夹存放对应资料
 
-详细参考：[目录结构](STRUCTURE.md)
+详细参考：[目录结构](../../STRUCTURE.md)
 
 ## 文件夹和网址的对应关系
 
