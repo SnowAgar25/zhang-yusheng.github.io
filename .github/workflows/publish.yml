@@ -55,18 +55,37 @@ jobs:
         with:
           node-version: 20
           
-      # 新增: 快取 apt packages
+      # 創建並設置快取目錄
+      - name: Setup cache directory
+        run: |
+          sudo mkdir -p /tmp/apt-cache
+          sudo chmod 777 /tmp/apt-cache
+          
+      # 快取 packages
       - name: Cache apt packages
         id: cache-apt
         uses: actions/cache@v3
         with:
-          path: /var/cache/apt/archives
+          path: /tmp/apt-cache
           key: ${{ runner.os }}-apt-${{ hashFiles('scripts/build_books.sh') }}
+          
+      # 複製快取的包到系統目錄
+      - name: Setup apt cache
+        run: |
+          if [ -d "/tmp/apt-cache" ]; then
+            sudo cp -R /tmp/apt-cache/* /var/cache/apt/archives/ || true
+          fi
           
       - name: Run package installation script
         run: |
           chmod +x ./scripts/install_packages.sh
           ./scripts/install_packages.sh
+          
+      # 保存新下載的包到快取
+      - name: Save apt cache
+        run: |
+          sudo cp -R /var/cache/apt/archives/*.deb /tmp/apt-cache/ || true
+          
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
