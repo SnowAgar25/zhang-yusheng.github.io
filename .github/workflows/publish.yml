@@ -2,7 +2,7 @@ name: "Build and deploy website with books"
 on:
   push:
     branches:
-      - main
+      - chore/action
   workflow_dispatch:
 
 permissions:
