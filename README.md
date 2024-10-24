@@ -1,6 +1,6 @@
 # 雨生资料整理
 
-測試 66666
+測試 test
 
 [资料仓库](https://github.com/zhang-yusheng/zhang-yusheng.github.io) | [下载资料](https://github.com/zhang-yusheng/zhang-yusheng.github.io/archive/refs/heads/main.zip)
 
