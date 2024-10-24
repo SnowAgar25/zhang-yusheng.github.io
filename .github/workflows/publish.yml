@@ -10,13 +10,11 @@ permissions:
   pages: write
   id-token: write
 
-# 允許兩個部署任務並行執行
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
-  # 快速部署網站
   deploy-site:
     runs-on: ubuntu-latest
     env:
@@ -32,7 +30,6 @@ jobs:
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
-      # 這裡先不生成電子書，只部署網站其他內容
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -44,9 +41,8 @@ jobs:
         with:
           artifact_name: site-artifact
 
-  # 生成並部署包含電子書的完整內容
   deploy-with-books:
-    needs: deploy-site  # 確保在網站部署後執行
+    needs: deploy-site
     runs-on: ubuntu-latest
     env:
       USER_NAME: zhang-yusheng
@@ -58,6 +54,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+          
+      # 新增: 快取 apt packages
+      - name: Cache apt packages
+        id: cache-apt
+        uses: actions/cache@v3
+        with:
+          path: /var/cache/apt/archives
+          key: ${{ runner.os }}-apt-${{ hashFiles('scripts/build_books.sh') }}
+          
       - name: Run package installation script
         run: |
           chmod +x ./scripts/install_packages.sh
