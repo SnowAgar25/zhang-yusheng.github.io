@@ -54,49 +54,28 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-
-      # 下載 .deb 文件到工作目錄
-      - name: Download .deb files
-        run: |
-          mkdir -p ./.cache/debs
-          cd ./.cache/debs
-          wget http://archive.ubuntu.com/ubuntu/pool/main/c/calibre/calibre_5.44.0+dfsg-1_all.deb
-          wget http://archive.ubuntu.com/ubuntu/pool/main/f/fonts-arphic-ukai/fonts-arphic-ukai_0.2.20080216.2-5_all.deb
-
-      # 快取 .deb 文件
-      - name: Cache .deb files
-        uses: actions/cache@v3
+      # 新增: 緩存 APT 包
+      - name: Cache APT Packages
+        uses: awalsh128/cache-apt-pkgs-action@latest
         with:
-          path: ./.cache/debs
-          key: ${{ runner.os }}-debs-${{ hashFiles('scripts/build_books.sh') }}
-
-      # 直接安裝下載的 .deb 文件
-      - name: Install .deb files
-        run: |
-          sudo apt-get update
-          sudo dpkg -i ./.cache/debs/*.deb || true
-          sudo apt-get install -f -y
-          
+          packages: calibre fonts-arphic-ukai
+          version: 1.0
       - name: Run package installation script
         run: |
           chmod +x ./scripts/install_packages.sh
           ./scripts/install_packages.sh
-          
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
-        
       - name: Build Books
         run: |
           chmod +x ./scripts/build_books.sh
           ./scripts/build_books.sh
-          
       - name: Upload full artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: .
           name: full-site-artifact
-          
       - name: Deploy full site
         id: deployment
         uses: actions/deploy-pages@v4
