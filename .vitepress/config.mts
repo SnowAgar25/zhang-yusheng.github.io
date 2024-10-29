@@ -4,7 +4,7 @@ import footnote from 'markdown-it-footnote'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "紀念雨生",
-  base: "/vitepress",  // 待改
+  base: "/zhang-yusheng.github.io",  // 待改
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
   ],
